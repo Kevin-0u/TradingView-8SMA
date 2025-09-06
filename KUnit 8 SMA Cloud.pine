@@ -1,0 +1,174 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © KUnit
+
+//@version=6
+indicator(title='8 SMAs with Cloud', shorttitle='SMA Cloud', overlay=true)
+
+// Plot up to 8 SMAs, SMA cloud of the first two and display the latest SMA
+// values in a color-coded table at the top of display. Each SMA's length can
+// be customized and set to be hidden from plotting and displaying in the
+// table. If either of the first two SMAs is set to be hidden, no SMA cloud
+// will be plotted.
+//
+// © KUnit - 2025
+
+
+// Defaults
+var MA1 = 5
+var MA2 = 10
+var MA3 = 20
+var MA4 = 50
+var MA5 = 60
+var MA6 = 100
+var MA7 = 120
+var MA8 = 200
+
+var COLOR1  = #CD5C5C   // SMA(5)    Fast
+var COLOR2  = #95D47A   // SMA(10)   Slow
+var COLOR3  = #5CCCCE   // SMA(20)
+var COLOR4  = #A09ED6   // SMA(50)
+var COLOR5  = #C594DE   // SMA(60)
+var COLOR6  = #706CD8   // SMA(100)
+var COLOR7  = #CE5DE0   // SMA(120)
+var COLOR8  = #F59A3F   // SMA(200)
+
+var COLOR_BULL = #2ECC71  // When SMA fast > SMA slow
+var COLOR_BEAR = #E74C3C  // When SMA fast < SMA slow
+
+var TABLE_LEFT_OFFSET = 13
+var TABLE_TRANSPARENCY = 10
+var TREND_TRANSPARENCY = 80
+
+// Customization unlikely needed beyond this line
+//-----------------------------------------
+
+// Inputs
+ma1Show = input.bool(title='', defval=true, inline='1')
+ma1Length = input.int(title='MA1 (Fast)', defval=MA1, inline='1')
+ma1Color = input.color(title='', defval=COLOR1, inline='1')
+bullColor = input.color(title='Bull', defval=COLOR_BULL,inline='1')
+
+ma2Show = input.bool(title='', defval=true, inline='2')
+ma2Length = input.int(title='MA2 (Slow)', defval=MA2, inline='2')
+ma2Color = input.color(title='', defval=COLOR2, inline='2')
+bearColor = input.color(title='Bear', defval=COLOR_BEAR,inline='2')
+
+ma3Show = input.bool(title='', defval=true, inline='3')
+ma3Length = input.int(title='MA3', defval=MA3, inline='3')
+ma3Color = input.color(title='', defval=COLOR3, inline='3')
+
+ma4Show = input.bool(title='', defval=true, inline='4')
+ma4Length = input.int(title='MA4', defval=MA4, inline='4')
+ma4Color = input.color(title='', defval=COLOR4, inline='4')
+
+ma5Show = input.bool(title='', defval=true, inline='5')
+ma5Length = input.int(title='MA5', defval=MA5, inline='5')
+ma5Color = input.color(title='', defval=COLOR5, inline='5')
+
+ma6Show = input.bool(title='', defval=true, inline='6')
+ma6Length = input.int(title='MA6', defval=MA6, inline='6')
+ma6Color = input.color(title='', defval=COLOR6, inline='6')
+
+ma7Show = input.bool(title='', defval=true, inline='7')
+ma7Length = input.int(title='MA7', defval=MA7, inline='7')
+ma7Color = input.color(title='', defval=COLOR7, inline='7')
+
+ma8Show = input.bool(title='', defval=true, inline='8')
+ma8Length = input.int(title='MA8', defval=MA8, inline='8')
+ma8Color = input.color(title='', defval=COLOR8, inline='8')
+
+// Miscellaneous Settings
+tableTopOffset = input.string(title='SMA Table Top Offset', defval='Normal', options=['Tiny', 'Small', 'Normal', 'Large', 'Huge'], group='Misc', display=display.none)
+tableLeftOffset = input.int(title='SMA Table Left Offset', defval=TABLE_LEFT_OFFSET, group='Misc', display=display.none)
+tableTransparency = input.int(title='SMA Table Transparency', defval=TABLE_TRANSPARENCY, group='Misc', display=display.none)
+trendTransparency = input.int(title='Trend Transparency', defval=TREND_TRANSPARENCY, group='Misc', display=display.none)
+
+// Simple Moving averages (always daily closes)
+ma1 = ta.sma(close, ma1Length)
+ma2 = ta.sma(close, ma2Length)
+ma3 = ta.sma(close, ma3Length)
+ma4 = ta.sma(close, ma4Length)
+ma5 = ta.sma(close, ma5Length)
+ma6 = ta.sma(close, ma6Length)
+ma7 = ta.sma(close, ma7Length)
+ma8 = ta.sma(close, ma8Length)
+
+// Create table (positioned to top-left corner)
+var table maTable = table.new(position.top_left, 9, 2, border_width=0)
+// Convert input string to size enum
+var text_size = tableTopOffset == 'Tiny' ? size.tiny
+  : tableTopOffset == 'Small' ? size.small
+  : tableTopOffset == 'Large' ? size.large
+  : tableTopOffset == 'Huge' ? size.huge
+  : size.normal
+
+// Update table values at each bar
+if barstate.islast
+    table.cell(maTable, 0, 0, '', width=tableLeftOffset, text_size=text_size) // Set cell position
+
+    column = 1
+    if ma1Show
+        table.cell(maTable, column, 1,
+          'SMA(' + str.tostring(ma1Length) + ') '
+          + str.tostring(ma1, format.mintick),
+          bgcolor=color.new(ma1Color, tableTransparency))
+        column += 1
+    if ma2Show
+        table.cell(maTable, column, 1,
+          'SMA(' + str.tostring(ma2Length) + ') '
+          + str.tostring(ma2, format.mintick),
+          bgcolor=color.new(ma2Color, tableTransparency))
+        column += 1
+    if ma3Show
+        table.cell(maTable, column, 1,
+          'SMA(' + str.tostring(ma3Length) + ') '
+          + str.tostring(ma3, format.mintick),
+          bgcolor=color.new(ma3Color, tableTransparency))
+        column += 1
+    if ma4Show
+        table.cell(maTable, column, 1,
+          'SMA(' + str.tostring(ma4Length) + ') '
+          + str.tostring(ma4, format.mintick),
+          bgcolor=color.new(ma4Color, tableTransparency))
+        column += 1
+    if ma5Show
+        table.cell(maTable, column, 1,
+          'SMA(' + str.tostring(ma5Length) + ') '
+          + str.tostring(ma5, format.mintick),
+          bgcolor=color.new(ma5Color, tableTransparency))
+        column += 1
+    if ma6Show
+        table.cell(maTable, column, 1,
+          'SMA(' + str.tostring(ma6Length) + ') '
+          + str.tostring(ma6, format.mintick),
+          bgcolor=color.new(ma6Color, tableTransparency))
+        column += 1
+    if ma7Show
+        table.cell(maTable, column, 1,
+          'SMA(' + str.tostring(ma7Length) + ') '
+          + str.tostring(ma7, format.mintick),
+          bgcolor=color.new(ma7Color, tableTransparency))
+        column += 1
+    if ma8Show
+        table.cell(maTable, column, 1,
+          'SMA(' + str.tostring(ma8Length) + ') '
+          + str.tostring(ma1, format.mintick),
+          bgcolor=color.new(ma8Color, tableTransparency))
+
+// Plot SMAs on chart (optional)
+ma1Plot = plot(ma1Show ? ma1 : na, 'MA1', color=ma1Color)
+ma2Plot = plot(ma2Show ? ma2 : na, 'MA2', color=ma2Color)
+plot(ma3Show ? ma3 : na, 'MA3', color=ma3Color)
+plot(ma4Show ? ma4 : na, 'MA4', color=ma4Color)
+plot(ma5Show ? ma5 : na, 'MA5', color=ma5Color)
+plot(ma6Show ? ma6 : na, 'MA6', color=ma6Color)
+plot(ma7Show ? ma7 : na, 'MA7', color=ma7Color)
+plot(ma8Show ? ma8 : na, 'MA8', color=ma8Color)
+
+// Cloud shading between fast SMA and slow SMA
+trendColor = if ma1Show and ma2Show
+    ma1 > ma2 ? color.new(bullColor, trendTransparency) : color.new(bearColor, trendTransparency)
+else
+    na  // No cloud shading if either of fast or slow SMA is hidden
+
+fill(ma1Plot, ma2Plot, color=trendColor)
