@@ -1,16 +1,36 @@
-// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// This source code is subject to the terms of the Mozilla Public License
+// 2.0 at https://mozilla.org/MPL/2.0/
 // © KUnit
 
 //@version=6
 indicator(title='8 SMAs with Cloud', shorttitle='SMA Cloud', overlay=true)
 
-// Plot up to 8 SMAs, SMA cloud of the first two and display the latest SMA
-// values in a color-coded table at the top of display. Each SMA's length can
-// be customized and set to be hidden from plotting and displaying in the
-// table. If either of the first two SMAs is set to be hidden, no SMA cloud
-// will be plotted.
+// SMA Cloud & Multi-SMA Indicator
 //
-// © KUnit - 2025
+// This script plots up to 8 customizable Simple Moving Averages (SMAs).
+// Features include:
+//
+// - SMA Cloud: A filled region between SMA1 and SMA2 for visualizing 
+//   trend direction. The cloud is disabled if either SMA1 or SMA2 is hidden.
+//
+// - SMA Length Customization: Each SMA has an independent length input. 
+//   Default values can be adjusted to match user preference (short-, 
+//   mid-, or long-term analysis).
+//
+// - Visibility Controls: Each SMA can be individually toggled for chart 
+//   plotting and/or table display.
+//
+// - Summary Table: Displays the most recent values of all enabled SMAs 
+//   at the top of the chart with the same color code as SMA.
+//
+// Notes:
+// - Table rendering is dynamic: disabled SMAs are excluded.
+// - SMA cloud relies on the first two SMAs being enabled; otherwise, no 
+//   fill is drawn.
+//
+// Version: 1.0
+// Author: KUnit
+// License: MPL 2.0
 
 
 // Defaults
@@ -23,17 +43,17 @@ var MA6 = 100
 var MA7 = 120
 var MA8 = 200
 
-var COLOR1  = #CD5C5C   // SMA(5)    Fast
-var COLOR2  = #95D47A   // SMA(10)   Slow
-var COLOR3  = #5CCCCE   // SMA(20)
-var COLOR4  = #A09ED6   // SMA(50)
-var COLOR5  = #C594DE   // SMA(60)
-var COLOR6  = #706CD8   // SMA(100)
-var COLOR7  = #CE5DE0   // SMA(120)
-var COLOR8  = #F59A3F   // SMA(200)
+var COLOR1 = #CD5C5C // SMA(5) Fast
+var COLOR2 = #95D47A // SMA(10) Slow
+var COLOR3 = #5CCCCE // SMA(20)
+var COLOR4 = #A09ED6 // SMA(50)
+var COLOR5 = #C594DE // SMA(60)
+var COLOR6 = #706CD8 // SMA(100)
+var COLOR7 = #CE5DE0 // SMA(120)
+var COLOR8 = #F59A3F // SMA(200)
 
-var COLOR_BULL = #2ECC71  // When SMA fast > SMA slow
-var COLOR_BEAR = #E74C3C  // When SMA fast < SMA slow
+var COLOR_BULL = #2ECC71 // When SMA fast > SMA slow
+var COLOR_BEAR = #E74C3C // When SMA fast < SMA slow
 
 var TABLE_LEFT_OFFSET = 13
 var TABLE_TRANSPARENCY = 10
@@ -83,7 +103,7 @@ tableLeftOffset = input.int(title='SMA Table Left Offset', defval=TABLE_LEFT_OFF
 tableTransparency = input.int(title='SMA Table Transparency', defval=TABLE_TRANSPARENCY, group='Misc', display=display.none)
 trendTransparency = input.int(title='Trend Transparency', defval=TREND_TRANSPARENCY, group='Misc', display=display.none)
 
-// Simple Moving averages (always daily closes)
+// Simple Moving Averages (always daily closes)
 ma1 = ta.sma(close, ma1Length)
 ma2 = ta.sma(close, ma2Length)
 ma3 = ta.sma(close, ma3Length)
