@@ -43,14 +43,14 @@ var MA6 = 100
 var MA7 = 120
 var MA8 = 200
 
-var COLOR1 = #CD5C5C // SMA(5) Fast
+var COLOR1 = #E60049 // SMA(5) Fast
 var COLOR2 = #95D47A // SMA(10) Slow
-var COLOR3 = #5CCCCE // SMA(20)
-var COLOR4 = #A09ED6 // SMA(50)
-var COLOR5 = #C594DE // SMA(60)
-var COLOR6 = #706CD8 // SMA(100)
-var COLOR7 = #CE5DE0 // SMA(120)
-var COLOR8 = #F59A3F // SMA(200)
+var COLOR3 = #B3D4FF // SMA(20)
+var COLOR4 = #DC0AB4 // SMA(50)
+var COLOR5 = #00BFA0 // SMA(60)
+var COLOR6 = #0BB4FF // SMA(100)
+var COLOR7 = #9B19F5 // SMA(120)
+var COLOR8 = #FFA300 // SMA(200)
 
 var COLOR_BULL = #2ECC71 // When SMA fast > SMA slow
 var COLOR_BEAR = #E74C3C // When SMA fast < SMA slow
