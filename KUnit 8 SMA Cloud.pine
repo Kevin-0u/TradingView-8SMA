@@ -3,9 +3,9 @@
 // © KUnit
 
 //@version=6
-indicator(title='8 SMAs with Cloud', shorttitle='SMA Cloud', overlay=true)
+indicator(title='8 SMAs with Cloud and Parabolic SAR', shorttitle='SMA Cloud', overlay=true)
 
-// SMA Cloud & Multi-SMA Indicator
+// SMA Cloud, Multi-SMA and Parabolic SAR Indicator
 //
 // Version: 1.0
 // Author: KUnit
@@ -37,6 +37,8 @@ var COLOR_BEAR = #E74C3C // When SMA fast < SMA slow
 var TABLE_LEFT_OFFSET = 13
 var TABLE_TRANSPARENCY = 10
 var TREND_TRANSPARENCY = 80
+
+var COLOR_SAR = #3254FF
 
 // Customization unlikely needed beyond this line
 //-----------------------------------------
@@ -76,6 +78,13 @@ ma8Show = input.bool(title='', defval=true, inline='8')
 ma8Length = input.int(title='MA8', defval=MA8, inline='8')
 ma8Color = input.color(title='', defval=COLOR8, inline='8')
 
+// Parabolic SAR Settings
+show = input.bool(true, "Parabolic SAR", group='Parabolic SAR', inline='9')
+sarColor = input.color(COLOR_SAR, "", group='Parabolic SAR', inline='9')
+start = input(0.02, group='Parabolic SAR')
+increment = input(0.02, group='Parabolic SAR')
+maximum = input(0.2, "Max value", group='Parabolic SAR')
+
 // Miscellaneous Settings
 tableTopOffset = input.string(title='SMA Table Top Offset', defval='Normal', options=['Tiny', 'Small', 'Normal', 'Large', 'Huge'], group='Misc', display=display.none)
 tableLeftOffset = input.int(title='SMA Table Left Offset', defval=TABLE_LEFT_OFFSET, group='Misc', display=display.none)
@@ -92,8 +101,11 @@ ma6 = ta.sma(close, ma6Length)
 ma7 = ta.sma(close, ma7Length)
 ma8 = ta.sma(close, ma8Length)
 
+// Parabolic SAR
+sar = ta.sar(start, increment, maximum)
+
 // Create table (positioned to top-left corner)
-var table maTable = table.new(position.top_left, 9, 2, border_width=0)
+var table maTable = table.new(position.top_left, 10, 2, border_width=0)
 // Convert input string to size enum
 var text_size = tableTopOffset == 'Tiny' ? size.tiny
   : tableTopOffset == 'Small' ? size.small
@@ -153,6 +165,12 @@ if barstate.islast
           'SMA(' + str.tostring(ma8Length) + ') '
           + str.tostring(ma1, format.mintick),
           bgcolor=color.new(ma8Color, tableTransparency))
+        column += 1
+    if show
+        table.cell(maTable, column, 1,
+          'SAR '
+          + str.tostring(sar, format.mintick),
+          bgcolor=color.new(sarColor, tableTransparency))
 
 // Plot SMAs on chart (optional)
 ma1Plot = plot(ma1Show ? ma1 : na, 'MA1', color=ma1Color)
@@ -171,3 +189,6 @@ else
     na  // No cloud shading if either of fast or slow SMA is hidden
 
 fill(ma1Plot, ma2Plot, color=trendColor)
+
+// Parabolic SAR
+plot(show ? sar : na, "ParabolicSAR", style=plot.style_cross, color=sarColor, linewidth=2)

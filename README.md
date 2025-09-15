@@ -1,41 +1,52 @@
-# SMA Cloud & Multi-SMA Indicator
+# SMA Cloud, Multi-SMA & Parabolic SAR Indicator
 
-A **TradingView Pine Script indicator** that lets you track up to **eight customizable Simple Moving Averages (SMAs)** in one clean view.  
-It’s designed to make trend direction, support/resistance zones, and momentum shifts easier to see at a glance.
+A **TradingView Pine Script indicator** that combines:
+
+- Up to **eight customizable Simple Moving Averages (SMAs)**
+- A dynamic **SMA Cloud** between the first two SMAs
+- The classic **Parabolic SAR** trend-following indicator
+
+It’s designed to help you quickly spot trend direction, support/resistance, and momentum shifts — all in one clean view.
 
 ---
 
 ## 🚀 Key Features (For Traders)
 
-- **SMA Cloud**  
-  A shaded cloud is drawn between the first two SMAs, helping you visualize when price is trending vs consolidating.  
+- **SMA Cloud**
+  A shaded cloud is drawn between the first two SMAs, helping you visualize when price is trending vs consolidating.
   > ℹ️ If either of the first two SMAs is hidden, the cloud won’t appear.
 
-- **Flexible Setup**  
-  Define the length of each SMA to fit your trading style — from short-term momentum (5–10 bars) to long-term trend following (100–200 bars).
+- **Multiple SMAs**
+  Track up to 8 SMAs at once. Configure each length independently to fit your style — from short-term momentum (5–10 bars) to long-term trends (100–200 bars).
 
-- **Toggle Visibility**  
-  Show or hide each SMA individually, both on the chart and in the summary table, keeping your workspace clean.
+- **Parabolic SAR**
+  Built-in SAR points appear above or below price, highlighting potential trend reversals and trailing stop levels.
 
-- **Color-Coded Summary Table**  
-  A compact table at the top of the chart displays the latest SMA values, color-coded for quick interpretation.
+- **Toggle Visibility**
+  Show or hide each SMA and the SAR indicator individually, both on the chart and in the summary table, keeping your workspace clean.
+
+- **Color-Coded Summary Table**
+  A compact table at the top of the chart displays the latest SMA values (and optionally SAR), color-coded for quick interpretation.
 
 ---
 
 ## 📈 Why Use This Indicator?
 
-- Confirm trend direction at a glance with multiple SMAs.  
-- Identify bullish/bearish momentum shifts when SMAs cross and the SMA cloud changes color.  
-- Keep charts uncluttered with a streamlined SMA overview table.  
+- Confirm trend direction with SMAs and SMA Cloud.
+- Identify momentum shifts when SMAs cross or SAR flips position.
+- Use SAR as a trailing stop guide to lock in profits.
+- Keep charts uncluttered with a consolidated SMA/SAR overview table.
 
 ---
 
 ## ⚙️ How to Use
 
-1. Add the indicator to your TradingView chart.  
-2. Open the settings panel to configure up to 8 SMA lengths.  
-3. Decide which SMAs to display on the chart and in the summary table.  
-4. Use the SMA Cloud (first two SMAs) as a visual cue for trend strength and possible reversals.  
+1. Add the indicator to your TradingView chart.
+2. Open the settings panel to configure:
+   - Up to 8 SMA lengths
+   - SAR parameters (step, maximum)
+3. Choose which SMAs and whether SAR should be shown on chart and/or in the summary table.
+4. Use the SMA Cloud and SAR together for trend confirmation and potential entry/exit signals.
 
 ---
 
@@ -45,23 +56,27 @@ This section is for developers who want to extend, debug, or adapt the script.
 
 ### Core Components
 
-- **SMA Cloud**  
-  A filled region between SMA1 and SMA2. The cloud is only drawn if both are enabled.  
+- **SMA Cloud**
+  A filled region between SMA1 and SMA2. The cloud is only drawn if both are enabled.
 
-- **SMA Length Customization**  
-  Each SMA has its own configurable length input. Default values can be adjusted for short-, mid-, or long-term analysis.  
+- **SMA Management**
+  - Each SMA has an independent length input.
+  - Visibility can be toggled for chart plotting and table display.
 
-- **Visibility Controls**  
-  Each SMA can be individually toggled for:  
-  - **Chart plotting** (line visibility)  
-  - **Table display** (inclusion/exclusion from summary table)  
+- **Parabolic SAR**
+  - Standard TradingView `sar()` function implementation.
+  - Configurable step and maximum parameters.
+  - Plotted as dots above/below price; optional inclusion in summary table.
 
-- **Summary Table**  
-  Displays the most recent value of each enabled SMA at the top of the chart. Colors match the plotted SMA lines.  
+- **Summary Table**
+  - Displays the most recent values of all enabled SMAs.
+  - SAR value can be displayed if enabled.
+  - Colors match chart plots for consistency.
 
 ### Implementation Notes
 
-- Table rendering is dynamic: disabled SMAs are excluded.  
-- SMA Cloud rendering depends on SMA1 and SMA2 being visible; otherwise, no fill is drawn.  
+- Table rendering is dynamic: disabled SMAs and SAR are excluded.
+- SMA Cloud rendering depends on SMA1 and SMA2 being visible; otherwise, no fill is drawn.
+- SAR updates per bar, flipping when trend direction changes.
 
 ---
