@@ -7,27 +7,6 @@ indicator(title='8 SMAs with Cloud', shorttitle='SMA Cloud', overlay=true)
 
 // SMA Cloud & Multi-SMA Indicator
 //
-// This script plots up to 8 customizable Simple Moving Averages (SMAs).
-// Features include:
-//
-// - SMA Cloud: A filled region between SMA1 and SMA2 for visualizing 
-//   trend direction. The cloud is disabled if either SMA1 or SMA2 is hidden.
-//
-// - SMA Length Customization: Each SMA has an independent length input. 
-//   Default values can be adjusted to match user preference (short-, 
-//   mid-, or long-term analysis).
-//
-// - Visibility Controls: Each SMA can be individually toggled for chart 
-//   plotting and/or table display.
-//
-// - Summary Table: Displays the most recent values of all enabled SMAs 
-//   at the top of the chart with the same color code as SMA.
-//
-// Notes:
-// - Table rendering is dynamic: disabled SMAs are excluded.
-// - SMA cloud relies on the first two SMAs being enabled; otherwise, no 
-//   fill is drawn.
-//
 // Version: 1.0
 // Author: KUnit
 // License: MPL 2.0
