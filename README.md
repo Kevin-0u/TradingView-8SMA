@@ -8,7 +8,7 @@ A **TradingView Pine Script indicator** that combines:
 
 It’s designed to help you quickly spot trend direction, support/resistance, and momentum shifts — all in one clean view.
 
-## 🚀 Key Features (For Traders)
+## 🔑 Key Features (For Traders)
 
 - **SMA Cloud**
   A shaded cloud is drawn between the first two SMAs, helping you visualize when price is trending vs consolidating.
