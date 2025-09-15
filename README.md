@@ -8,8 +8,6 @@ A **TradingView Pine Script indicator** that combines:
 
 It’s designed to help you quickly spot trend direction, support/resistance, and momentum shifts — all in one clean view.
 
----
-
 ## 🚀 Key Features (For Traders)
 
 - **SMA Cloud**
@@ -28,16 +26,12 @@ It’s designed to help you quickly spot trend direction, support/resistance, an
 - **Color-Coded Summary Table**
   A compact table at the top of the chart displays the latest SMA values (and optionally SAR), color-coded for quick interpretation.
 
----
-
 ## 📈 Why Use This Indicator?
 
 - Confirm trend direction with SMAs and SMA Cloud.
 - Identify momentum shifts when SMAs cross or SAR flips position.
 - Use SAR as a trailing stop guide to lock in profits.
 - Keep charts uncluttered with a consolidated SMA/SAR overview table.
-
----
 
 ## ⚙️ How to Use
 
@@ -78,5 +72,3 @@ This section is for developers who want to extend, debug, or adapt the script.
 - Table rendering is dynamic: disabled SMAs and SAR are excluded.
 - SMA Cloud rendering depends on SMA1 and SMA2 being visible; otherwise, no fill is drawn.
 - SAR updates per bar, flipping when trend direction changes.
-
----
